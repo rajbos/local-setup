@@ -13,4 +13,7 @@ Repository with all info about my local setup and install scripts to use
 - Calender & Mail (Store App)
 
 # Git setup
-- git cleanup script
+## Git cleanup script
+```
+alias.cleanup=!git remote prune origin && git branch -vv | grep ''': gone]''' | awk '''{print $1}''' | xargs -r git branch -D
+```
