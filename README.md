@@ -4,6 +4,7 @@ Repository with all info about my local setup and install scripts to use
 
 # Software to install
 |Name|Link|Available in Chocolatey?|
+|---|---|---|
 |Windows Terminal (Store App)|||
 |Git for Windows|||
 |Edge|||
