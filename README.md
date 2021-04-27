@@ -30,3 +30,6 @@ git config --global user.signingkey ******
 git config --global commit.gpgsign true
 git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
 ```
+
+## Chrome settings
+go to `chrome://settings/content/notifications` => "Sites can ask to send notifications" -> Off
