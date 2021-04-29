@@ -5,7 +5,8 @@ Repository with all info about my local setup and install scripts to use
 # Software to install
 Todo: Export package.json from Chocolatey to this repo
 Insert command here: 
-```
+``` PowerShell
+
 ```
 
 # Git setup
