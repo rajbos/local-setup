@@ -3,17 +3,10 @@ Repository with all info about my local setup and install scripts to use
 
 
 # Software to install
-|Name|Link|Available in Chocolatey?|
-|---|---|---|
-|Windows Terminal (Store App)|||
-|Git for Windows|||
-|Edge|||
-|Slack|||
-|Teams|||
-|VsCode|||
-|Visual Studio|||
-|Calendar & Mail (Store App)|||
-|GPG4Win|https://www.gpg4win.org/|?|
+Todo: Export package.json from Chocolatey to this repo
+Insert command here: 
+```
+```
 
 # Git setup
 
