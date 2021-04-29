@@ -23,6 +23,7 @@ Repository with all info about my local setup and install scripts to use
 git config --global user.name "Rob Bos"
 git config --global user.email "raj.bos@gmail.com"
 git config --global pull.rebase true
+git config --global core.longpaths true
 ```
 
 ## Git cleanup script
