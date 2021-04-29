@@ -3,10 +3,10 @@ Repository with all info about my local setup and install scripts to use
 
 
 # Software to install
-Todo: Export package.json from Chocolatey to this repo
-Insert command here: 
-``` PowerShell
+Todo: Export package.json from Chocolatey to this repo through the [UI](https://docs.chocolatey.org/en-us/chocolatey-gui/user-interface/main-window/actions/export)
 
+``` PowerShell
+choco install chocolateygui
 ```
 
 # Git setup
