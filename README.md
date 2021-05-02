@@ -53,7 +53,7 @@ Enable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName '*integrated webcam*' 
 ```
 
 # Terminal Setup
-Install both all modules I use:
+Install all modules I use:
 ``` PowerShell
 Install-Module posh-git -Scope CurrentUser
 Install-Module oh-my-posh -Scope CurrentUser
