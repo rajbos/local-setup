@@ -53,10 +53,11 @@ Enable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName '*integrated webcam*' 
 ```
 
 # Terminal Setup
-Install both oh-my-posh and posh-git:
+Install both all modules I use:
 ``` PowerShell
 Install-Module posh-git -Scope CurrentUser
 Install-Module oh-my-posh -Scope CurrentUser
+Install-Module -Name Terminal-Icons -Repository PSGallery -Scope CurrentUser
 ```
 
 1. Get the Windows Terminal (Store app)
@@ -68,6 +69,7 @@ Install-Module oh-my-posh -Scope CurrentUser
 ``` PowerShell
 code $PROFILE
 # add the modules and theme
+Import-Module Terminal-Icons
 Import-Module oh-my-posh
 Import-Module posh-git
 Set-PoshPrompt -Theme Agnoster # pick one from Get-PoshThemes
