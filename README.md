@@ -8,6 +8,12 @@ Todo: Export package.json from Chocolatey to this repo through the [UI](https://
 choco install chocolateygui
 ```
 
+To update all software installed through Chocolatey:
+``` PowerShell
+choco ugrade all
+```
+
+
 # Git setup
 
 ## Git default settings
