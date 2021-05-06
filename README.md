@@ -4,12 +4,15 @@ Repository with all info about my local setup and install scripts to use
 # Software to install
 Todo: Export package.json from Chocolatey to this repo through the [UI](https://docs.chocolatey.org/en-us/chocolatey-gui/user-interface/main-window/actions/export)
 
+Commands
 ``` PowerShell
+# install the gui to help:
 choco install chocolateygui
-```
 
-To update all software installed through Chocolatey:
-``` PowerShell
+# review available updates through Chocolatey:
+choco upgrade all --noop
+
+# update all software installed through Chocolatey:
 choco ugrade all
 ```
 
