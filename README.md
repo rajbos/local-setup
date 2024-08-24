@@ -1,5 +1,5 @@
 # local-setup
-Repository with all info about my local setup and install scripts to use
+Repository with all info about my local setup and install scripts to use.
 
 # Software to install
 Todo: Export package.json from Chocolatey to this repo through the [UI](https://docs.chocolatey.org/en-us/chocolatey-gui/user-interface/main-window/actions/export)
@@ -26,6 +26,14 @@ git config --global user.name "Rob Bos"
 git config --global user.email "raj.bos@gmail.com"
 git config --global pull.rebase true
 git config --global core.longpaths true
+git config --global core.autocrlf=input
+git config --global help.autocorrect=20
+git config --global push.autosetupremote=true
+git config --global gpg.program=C:\Program Files (x86)\GnuPG\bin\gpg.exe
+
+# aliasses
+git config --global alias.cleanup=!git remote prune origin && git branch -vv | grep ''': gone]''' | awk '''{print $1}''' | xargs -r git branch -D
+git config --global alias.log1=log --oneline
 ```
 
 ## Git cleanup script
@@ -81,7 +89,12 @@ code $PROFILE
 Import-Module Terminal-Icons
 Import-Module oh-my-posh
 Import-Module posh-git
-Set-PoshPrompt -Theme Agnoster # pick one from Get-PoshThemes
+Set-PoshPrompt -Theme slimfat # pick one from Get-PoshThemes
+# used before:
+#  paradox
+
+Set-Alias 'codei' 'code-insiders'
+
 # save the file
 
 # reload your profile
