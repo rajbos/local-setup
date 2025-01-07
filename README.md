@@ -16,6 +16,12 @@ choco upgrade all --noop
 choco ugrade all
 ```
 
+If you download a backup of the `packages.config` file in this repository, make sure it has that exact name. Now you can execute the install command with that file:
+
+``` shell
+choco install /path_to/packages.config
+```
+
 
 # Git setup
 
