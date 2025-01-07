@@ -32,9 +32,9 @@ git config --global user.name "Rob Bos"
 git config --global user.email "raj.bos@gmail.com"
 git config --global pull.rebase true
 git config --global core.longpaths true
-git config --global core.autocrlf=input
-git config --global help.autocorrect=20
-git config --global push.autosetupremote=true
+git config --global core.autocrlf input
+git config --global help.autocorrect 20
+git config --global push.autosetupremote true
 git config --global gpg.program="C:\Program Files (x86)\GnuPG\bin\gpg.exe"
 
 # aliasses
@@ -53,6 +53,7 @@ git config --global alias.cleanup "!git remote prune origin && git branch -vv | 
 # get key from here: 
 gpg --list-secret-keys --keyid-format LONG
 # configure Git to find the key and set the correct program for en/decryption
+# grap the SEC line from the list output and use the ID after the encryption method (e.g. sec   ed25519/1234567890 2025-01-07 where the key is '1234567890'  
 git config --global user.signingkey ******
 git config --global commit.gpgsign true
 git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
