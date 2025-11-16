@@ -17,46 +17,66 @@ TEMPLATE """
 # Start logging
 "=== Ollama Model Registration Log ===" | Out-File $logFile
 
-# Get all model names from manifests
-$modelNames = Get-ChildItem -Path $manifestPath -File | ForEach-Object {
-    $_.BaseName
-}
+# Get all model manifests recursively from the manifest directory structure
+# Ollama uses nested paths like: manifests/registry.ollama.ai/library/{model}/{tag}
+$manifestFiles = Get-ChildItem -Path $manifestPath -File -Recurse
 
-Write-Host "Found models: $($modelNames -join ', ')"
+Write-Host "Found $($manifestFiles.Count) model manifest(s)"
 
-foreach ($model in $modelNames) {
+foreach ($manifestFile in $manifestFiles) {
     try {
-        $modelFolder = Join-Path $modelsRoot $model
-        $modelfilePath = Join-Path $modelFolder "Modelfile"
+        # Extract the relative path from the manifest directory
+        # Example: registry.ollama.ai/library/llama2/latest -> llama2:latest
+        $relativePath = $manifestFile.FullName.Substring($manifestPath.Length + 1)
+        
+        # Split the path to extract model and tag
+        # Path structure: {registry}/{namespace}/{model}/{tag}
+        $pathParts = $relativePath -split [regex]::Escape([IO.Path]::DirectorySeparatorChar)
+        
+        if ($pathParts.Count -ge 3) {
+            # Extract model name and tag from the nested structure
+            $modelName = $pathParts[-2]  # Second to last element is the model name
+            $tag = $pathParts[-1]         # Last element is the tag
+            $model = "${modelName}:${tag}"
+            
+            Write-Host "Processing model: $model (from $relativePath)"
+            
+            # Create a flat folder structure for the Modelfile
+            $modelFolder = Join-Path $modelsRoot $modelName
+            $modelfilePath = Join-Path $modelFolder "Modelfile"
 
-        # Create folder if missing
-        if (-Not (Test-Path $modelFolder)) {
-            New-Item -ItemType Directory -Path $modelFolder | Out-Null
-        }
+            # Create folder if missing
+            if (-Not (Test-Path $modelFolder)) {
+                New-Item -ItemType Directory -Path $modelFolder | Out-Null
+            }
 
-        # Create Modelfile if missing
-        if (-Not (Test-Path $modelfilePath)) {
-            $content = "FROM $model`r`n`r`n$defaultParams"
-            Set-Content -Path $modelfilePath -Value $content
-            Add-Content $logFile "[$(Get-Date)] Created Modelfile for $model"
+            # Create Modelfile if missing
+            if (-Not (Test-Path $modelfilePath)) {
+                $content = "FROM $model`r`n`r`n$defaultParams"
+                Set-Content -Path $modelfilePath -Value $content
+                Add-Content $logFile "[$(Get-Date)] Created Modelfile for $model"
+            } else {
+                Add-Content $logFile "[$(Get-Date)] Modelfile already exists for $model, skipping creation"
+            }
+
+            # Register model
+            Write-Host "Registering $model..."
+            $result = & ollama create $model -f $modelfilePath 2>&1
+
+            if ($LASTEXITCODE -eq 0) {
+                Add-Content $logFile "[$(Get-Date)] Successfully registered $model"
+            } else {
+                Add-Content $logFile "[$(Get-Date)] ERROR registering $model: $result"
+            }
         } else {
-            Add-Content $logFile "[$(Get-Date)] Modelfile already exists for $model, skipping creation"
-        }
-
-        # Register model
-        Write-Host "Registering $model..."
-        $result = & ollama create $model -f $modelfilePath 2>&1
-
-        if ($LASTEXITCODE -eq 0) {
-            Add-Content $logFile "[$(Get-Date)] Successfully registered $model"
-        } else {
-            Add-Content $logFile "[$(Get-Date)] ERROR registering $model: $result"
+            Add-Content $logFile "[$(Get-Date)] WARNING: Skipping manifest with unexpected path structure: $relativePath"
+            Write-Host "Warning: Skipping manifest with unexpected path: $relativePath"
         }
     }
     catch {
         $errorMsg = $_.Exception.Message
-        Add-Content $logFile "[$(Get-Date)] EXCEPTION for $model: $errorMsg"
-        Write-Host "Error processing $model: $errorMsg"
+        Add-Content $logFile "[$(Get-Date)] EXCEPTION for $relativePath: $errorMsg"
+        Write-Host "Error processing $relativePath: $errorMsg"
     }
 }
 
