@@ -1,3 +1,9 @@
+# Check if ollama command is available
+if (-Not (Get-Command ollama -ErrorAction SilentlyContinue)) {
+    Write-Host "Ollama command not found. Please ensure Ollama is installed and in PATH."
+    exit 1
+}
+
 # Paths
 $modelsRoot = "$env:USERPROFILE\.ollama\models"
 $manifestPath = Join-Path $modelsRoot "manifests"
@@ -17,9 +23,16 @@ TEMPLATE """
 # Start logging
 "=== Ollama Model Registration Log ===" | Out-File $logFile
 
-# Get all model manifests recursively from the manifest directory structure
-# Ollama uses nested paths like: manifests/registry.ollama.ai/library/{model}/{tag}
-$manifestFiles = Get-ChildItem -Path $manifestPath -File -Recurse
+# Check if manifests directory exists
+if (-Not (Test-Path $manifestPath)) {
+    Write-Host "Manifests directory not found at: $manifestPath"
+    exit 1
+}
+
+# Get all model names from manifests
+$modelNames = Get-ChildItem -Path $manifestPath -File | ForEach-Object {
+    $_.BaseName
+}
 
 Write-Host "Found $($manifestFiles.Count) model manifest(s)"
 
