@@ -23,6 +23,12 @@ TEMPLATE """
 # Start logging
 "=== Ollama Model Registration Log ===" | Out-File $logFile
 
+# Check if manifests directory exists
+if (-Not (Test-Path $manifestPath)) {
+    Write-Host "Manifests directory not found at: $manifestPath"
+    exit 1
+}
+
 # Get all model names from manifests
 $modelNames = Get-ChildItem -Path $manifestPath -File | ForEach-Object {
     $_.BaseName
