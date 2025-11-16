@@ -1,3 +1,9 @@
+# Check if ollama command is available
+if (-Not (Get-Command ollama -ErrorAction SilentlyContinue)) {
+    Write-Host "Ollama command not found. Please ensure Ollama is installed and in PATH."
+    exit 1
+}
+
 # Paths
 $modelsRoot = "$env:USERPROFILE\.ollama\models"
 $manifestPath = Join-Path $modelsRoot "manifests"
