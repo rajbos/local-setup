@@ -38,7 +38,6 @@ git config --global push.autosetupremote true
 git config --global gpg.program="C:\Program Files (x86)\GnuPG\bin\gpg.exe"
 
 # aliasses
-git config --global alias.cleanup=!git remote prune origin && git branch -vv | grep ''': gone]''' | awk '''{print $1}''' | xargs -r git branch -D
 git config --global alias.log1=log --oneline
 ```
 
